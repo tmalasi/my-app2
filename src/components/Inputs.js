@@ -1,13 +1,14 @@
 import React from "react";
 
-const Inputs = ({ type, value, onChange, placeholder, min }) => {
+const Inputs = ({ type, value, onChange, placeholder, min, checked }) => {
   return (
     <input
       type={type}
-      value={value}
-      onChange={onChange} // Use the correct prop name
+      value={type === "checkbox" ? undefined : value} // Only use value for non-checkbox types
+      onChange={onChange}
       placeholder={placeholder}
       min={min}
+      checked={type === "checkbox" ? checked : undefined} // Use checked prop for checkboxes
     />
   );
 };

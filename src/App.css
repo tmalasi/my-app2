@@ -1,23 +1,27 @@
+
+
+#root {
+  height: 100%;
+}
+
 .App {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 80vh;
-  text-align: center;
   align-items: center;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(to right, #6b11cbbe,#2574fc53);
-  color: white;
-  padding: 20px;
+  background: linear-gradient(to right, #d0c0a3, #fff3dbd4);
   border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Make sure it covers full width */
+  height: 100%; /* Ensure it covers full height */
+  padding: 50px 0;
 }
 
 button {
   color: white;
-  background-color: #6a11cb;
+  background-color: #722e2b;
   height: 30px;
-  border: 2px solid #6a11cb;
+  border: 2px solid #703e3b;
   border-radius: 20px;
   margin: 10px;
   font-weight: 550;
@@ -26,14 +30,15 @@ button {
   padding: 0 15px;
 }
 
+  
 button:hover {
   transform: translateY(-3px);
-  background-color: #2575fc;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: #c84648;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.267);
 }
 
 input {
-  border: 2px solid #6a11cb;
+  border: 2px solid #703e3b;
   border-radius: 15px;
   padding: 5px 10px;
   font-size: 14px;
@@ -41,33 +46,7 @@ input {
 }
 
 input:focus {
-  border: 2px solid #2575fc;
+  border: 2px solid #c84648;
   outline: none;
-  box-shadow: 4px 4px 10px rgba(137, 43, 226, 0.5);
+  box-shadow: 4px 4px 10px #782723dc;
 }
-
-li {
-  font-family: 'Times New Roman', Times, serif;
-  font-size: large;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 8px;
-  margin: 5px 0;
-  transition: background-color 0.3s;
-}
-
-li:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-div {
-  margin-top: 20px;
-}
-
