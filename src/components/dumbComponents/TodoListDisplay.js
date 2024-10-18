@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import "./ToDoListDisplay.css";
 
-function TodoListDisplay({ todos }) {
+const TodoListDisplay = React.memo(({ todos }) => {
   return (
     <div className="todo-list-display">
       <h2 className="header">To Do List:</h2>
@@ -10,14 +10,18 @@ function TodoListDisplay({ todos }) {
           <li key={todo.id} className="todo-item">
             <span className="todo-title">{todo.title}</span> <br />
             <span className="todo-description">{todo.description}</span> <br />
-            <span className={`todo-status ${todo.completed ? 'completed' : 'not-completed'}`}>
-              Status: {todo.completed ? 'Completed' : 'Not Completed'}
+            <span
+              className={`todo-status ${
+                todo.completed ? "completed" : "not-completed"
+              }`}
+            >
+              Status: {todo.completed ? "Completed" : "Not Completed"}
             </span>
           </li>
         ))}
       </ul>
     </div>
   );
-}
+});
 
 export default TodoListDisplay;

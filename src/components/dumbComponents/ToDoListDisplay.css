@@ -1,0 +1,51 @@
+.todo-list-display {
+  margin: 20px;
+  margin-top: 0px;
+  padding: 10px;
+  background-color: #f3efdf;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px #75322fe6;
+}
+
+.header {
+  color: #b90003;
+  font-family: serif;
+  margin-left: 45px;
+}
+
+.todo-item {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #d3c8b4; /* Optional: Add a border to each item */
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.537);
+  transition: background-color 0.3s;
+}
+
+.todo-item:hover {
+  background-color: #fffefb; /* Highlight on hover */
+}
+
+.todo-title {
+  font-weight: bold;
+  font-size: 1.2em; /* Larger font for the title */
+  color: #6e0f0a; /* Title color */
+}
+
+.todo-description {
+  font-size: 1em; /* Regular font size for description */
+  color: #703e3b; /* Description color */
+}
+
+.todo-status {
+  font-size: 0.9em; /* Smaller font size for status */
+  font-weight: bold;
+}
+
+.completed {
+  color: rgb(2, 112, 2); /* Color for completed status */
+}
+
+.not-completed {
+  color: red; /* Color for not completed status */
+}
