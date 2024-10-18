@@ -19,7 +19,8 @@ function ToDoList() {
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
   const [completedFilter, setCompletedFilter] = useState("all"); // State for completed filter
 
-  // Event handler functions wrapped in useCallback
+  // Event handler functions wrapped in useCallback 
+  //because otherwise will be recreated
   const handleTitleChange = useCallback((event) => {
     setTitle(event.target.value);
   }, []);
