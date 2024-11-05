@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 //fetching a list of todos from an API
-const useFetchTodos = () => {
+const useFetchTodos = (url) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ const useFetchTodos = () => {
     //allows you to write asynchronous code using await
     const fetchTodos = async () => {
       try {
-        const response = await fetch("http://localhost:8080/todos");
+        const response = await fetch(url);
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(

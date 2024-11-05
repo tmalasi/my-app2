@@ -5,6 +5,7 @@ import TodoListDisplay from "./dumbComponents/TodoListDisplay";
 import Header from "./dumbComponents/Header";
 import "./ToDoList.css";
 import useFetchTodos from "./useFetchTodos";
+import { useNavigate } from "react-router";
 
 // Todo reducer as defined above
 const todoReducer = (state, action) => {
@@ -26,8 +27,8 @@ const todoReducer = (state, action) => {
 
 function ToDoList() {
   // use the custom hook to fetch data
-  const { todos: initialTodos, loading, error, setTodos } = useFetchTodos();
-
+  const { todos: initialTodos, loading, error, setTodos } = useFetchTodos("http://localhost:8080/todos");
+  const navigate= useNavigate();
   // useReducer for managing todos
   const [todos, dispatch] = useReducer(todoReducer, initialTodos || []);
 
@@ -288,6 +289,7 @@ function ToDoList() {
         <div className="todo-list">
           <TodoListDisplay todos={filteredTodos} />
         </div>
+        <button onClick={()=>navigate("/api")}>Api Ex</button>
       </div>
     </>
   );
