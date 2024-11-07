@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "./Api.css";
+import React, { useState, useEffect, useMemo } from "react";
+import useFetch from "../customFetch/useFetch";
 
-const Api = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [items, setItems] = useState([]);
-  const [language, setLanguage] = useState("");
+const Github = () => {
+ const [language, setLanguage] = useState("");
   const [searchLanguage, setSearchLanguage] = useState("");
   const [name, setName] = useState("");
   const [searchName, setSearchName] = useState(""); // New state for repository name
@@ -15,7 +12,7 @@ const Api = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const getUrl = () => {
+  const getUrl = useMemo(() => {
     let url = `https://api.github.com/search/repositories?q=language:${searchLanguage}+created:%3E${date}`;
     if (searchName) {
       url += `+name=${searchName}`;
@@ -23,29 +20,9 @@ const Api = () => {
     }
     url += `&sort=${sort}&order=${order}&per_page=5&page=${page}`;
     return url;
-  };
+  },[searchLanguage, searchName, order, date, sort, page]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(getUrl());
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        setItems(data.items);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [searchLanguage, searchName, order, date, searchName, page]); // Add searchName to the dependencies
+  const { items, loading, error } = useFetch(getUrl);
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
@@ -158,7 +135,7 @@ const Api = () => {
               }}
               style={{ cursor: sort === "stars" ? "pointer" : "default" }}
             >
-              Stars {sort === "stars" && (order === "asc" ? "▲" : "▼")}
+              Stars { (order === "asc" ? "▲" : "▼")}
             </th>
             <th
               onClick={() => {
@@ -166,7 +143,7 @@ const Api = () => {
               }}
               style={{ cursor: sort === "updated" ? "pointer" : "default" }}
             >
-              Last Updated {sort === "updated" && (order === "asc" ? "▲" : "▼")}
+              Last Updated {(order === "asc" ? "▲" : "▼")}
             </th>
             <th>Created at</th>
             <th>Description</th>
@@ -207,4 +184,4 @@ const Api = () => {
   );
 };
 
-export default Api;
+export default Github;

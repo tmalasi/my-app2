@@ -1,6 +1,7 @@
-import { Routes as AppRoutes, Route, BrowserRouter } from "react-router-dom";
-import ToDoList from "../TodoListReducer";
-import Api from "../Api";
+import { Routes as AppRoutes, Route } from "react-router-dom";
+import ToDoList from "../todos/TodoListReducer";
+import Api from "../toggle/Api";
+
 
 const Routes = () => {
   return (

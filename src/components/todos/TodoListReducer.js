@@ -1,11 +1,11 @@
 import React, { useReducer, useCallback, useMemo, useState } from "react";
-import Inputs from "./dumbComponents/Inputs";
-import CustomButton from "./dumbComponents/CustomButton";
-import TodoListDisplay from "./dumbComponents/TodoListDisplay";
-import Header from "./dumbComponents/Header";
+import Inputs from "../dumbComponents/Inputs";
+import CustomButton from "../dumbComponents/CustomButton";
+import TodoListDisplay from "../dumbComponents/TodoListDisplay";
+import Header from "../dumbComponents/Header";
 import "./ToDoList.css";
-import useFetchTodos from "./useFetchTodos";
 import { useNavigate } from "react-router";
+import useFetchTodos from "./useFetchTodos";
 
 // Todo reducer as defined above
 const todoReducer = (state, action) => {
