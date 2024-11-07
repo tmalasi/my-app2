@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import './Api.css';
+import React, { useState, useEffect } from "react";
+import "./Api.css";
 
 const Api = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
-  const [language, setLanguage] = useState('');
-  const [searchLanguage, setSearchLanguage] = useState('');
-  const [name, setName] = useState('');
-  const [searchName, setSearchName] = useState(''); // New state for repository name
-  const [order, setOrder] = useState('desc');
-  const [date, setDate] = useState('2023-11-01');
-  const [sort , setSort ]=useState('stars')
+  const [language, setLanguage] = useState("");
+  const [searchLanguage, setSearchLanguage] = useState("");
+  const [name, setName] = useState("");
+  const [searchName, setSearchName] = useState(""); // New state for repository name
+  const [order, setOrder] = useState("desc");
+  const [date, setDate] = useState("2023-11-01");
+  const [sort, setSort] = useState("stars");
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getUrl = () => {
     let url = `https://api.github.com/search/repositories?q=language:${searchLanguage}+created:%3E${date}`;
@@ -19,7 +21,7 @@ const Api = () => {
       url += `+name=${searchName}`;
       console.log(searchName);
     }
-    url += `&sort=${sort}&order=${order}&per_page=100`;
+    url += `&sort=${sort}&order=${order}&per_page=5&page=${page}`;
     return url;
   };
 
@@ -30,7 +32,7 @@ const Api = () => {
       try {
         const response = await fetch(getUrl());
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
@@ -43,7 +45,7 @@ const Api = () => {
     };
 
     fetchData();
-  }, [searchLanguage, searchName, order, date,searchName]); // Add searchName to the dependencies
+  }, [searchLanguage, searchName, order, date, searchName, page]); // Add searchName to the dependencies
 
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
@@ -54,20 +56,21 @@ const Api = () => {
   };
 
   const handleKeyDownLanguage = (e) => {
-    if (e.key === 'Enter') {
-      setSearchLanguage(language); // Trigger search when Enter is pressed for language
+    if (e.key === "Enter") {
+      setSearchLanguage(language); 
+      setPage(1);
     }
   };
 
   const handleKeyDownName = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       setSearchName(name);
-      console.log(name)
+      setPage(1);
     }
   };
 
   const handleOrder = () => {
-    setOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
+    setOrder((prevOrder) => (prevOrder === "desc" ? "asc" : "desc"));
   };
 
   const handleDateChange = (e) => {
@@ -77,7 +80,24 @@ const Api = () => {
   const handleSortChange = (e) => {
     setSort(e.target.value); // Update the sort criteria
   };
+  const handlePrevious = () => {
+    setPage(page-1);
+  };
 
+  const handleNext = () => {
+    setPage(page + 1);
+  };
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredItems = items.filter((item) =>
+    [item.name, item.description, item.language]
+      .filter(Boolean) // Ignore null values
+      .some((field) =>
+        field.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  );
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading data: {error.message}</p>;
 
@@ -111,11 +131,19 @@ const Api = () => {
           onChange={handleDateChange}
           className="dateInput"
         />
-                <p>Sort By</p>
+        <p>Sort By</p>
         <select value={sort} onChange={handleSortChange} className="sortSelect">
           <option value="stars">Stars</option>
           <option value="updated">Updated</option>
         </select>
+
+        <p>Search Repositories on the Client side</p>
+        <input
+          placeholder="Search"
+          className="searchBar"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
       </div>
 
       <table>
@@ -126,29 +154,33 @@ const Api = () => {
             <th>Watchers</th>
             <th
               onClick={() => {
-                if (sort === 'stars') handleOrder();
+                if (sort === "stars") handleOrder();
               }}
-              style={{ cursor: sort === 'stars' ? 'pointer' : 'default' }}
+              style={{ cursor: sort === "stars" ? "pointer" : "default" }}
             >
-              Stars {sort === 'stars' && (order === 'asc' ? '▲' : '▼')}
+              Stars {sort === "stars" && (order === "asc" ? "▲" : "▼")}
             </th>
             <th
               onClick={() => {
-                if (sort === 'updated') handleOrder();
+                if (sort === "updated") handleOrder();
               }}
-              style={{ cursor: sort === 'updated' ? 'pointer' : 'default' }}
+              style={{ cursor: sort === "updated" ? "pointer" : "default" }}
             >
-              Last Updated {sort === 'updated' && (order === 'asc' ? '▲' : '▼')}
+              Last Updated {sort === "updated" && (order === "asc" ? "▲" : "▼")}
             </th>
             <th>Created at</th>
             <th>Description</th>
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <tr key={item.id}>
               <td>
-                <a href={item.html_url} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={item.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {item.name}
                 </a>
               </td>
@@ -157,11 +189,20 @@ const Api = () => {
               <td>{item.stargazers_count}</td>
               <td>{new Date(item.updated_at).toLocaleString()}</td>
               <td>{new Date(item.created_at).toLocaleString()}</td>
-              <td>{item.description || 'No description available'}</td>
+              <td>{item.description || "No description available"}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="buttons">
+        <button className="button" onClick={handlePrevious} disabled={page === 1}>
+          Previous
+        </button>
+        <p className="page-number">{page}</p>
+        <button className="button" onClick={handleNext}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };

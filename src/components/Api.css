@@ -60,29 +60,6 @@ div {
   tr:hover {
     background-color: #f1f1f1;
   }
-  
-  /* Button styling */
-  button {
-    padding: 10px 20px;
-    margin: 20px;
-    font-size: 1rem;
-    color: white;
-    background-color: #007acc;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #005a99;
-  }
-  
-  button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
   .filters {
     display: flex;
     flex-direction: column;
@@ -98,3 +75,30 @@ div {
     border-radius: 4px;
   }
   
+  button {
+    color: white;
+    background-color: #722e2b;
+    height: 30px;
+    border: 2px solid #703e3b;
+    border-radius: 20px;
+    margin: 10px;
+    font-weight: 550;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    padding: 0 15px;
+  }
+  
+    
+  button:hover {
+    transform: translateY(-3px);
+    background-color: #c84648;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.267);
+  }
+  button:disabled {
+    background-color: #ccc; /* Light gray */
+    color: #666; /* Darker gray for text */
+    border-color: #bbb; /* Match border with disabled look */
+    cursor: not-allowed; /* Show a disabled cursor */
+    box-shadow: none; /* Remove shadow for a flat look */
+    transform: none; /* Remove transform effect */
+  }
